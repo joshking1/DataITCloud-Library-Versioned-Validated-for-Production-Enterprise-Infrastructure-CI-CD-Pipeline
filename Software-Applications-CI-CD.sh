@@ -11,7 +11,7 @@ echo "Install Maven"
 yum install -y maven 
 
 echo "Install git"
-yum install -y git
+yum install git -y
 
 amazon-linux-extras install epel
 yum update -y
