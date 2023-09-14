@@ -22,7 +22,7 @@ sudo amazon-linux-extras install java-openjdk11
 echo "Install Maven" 
 
 echo "Install git"
-yum install -y git
+yum install git -y
 
 amazon-linux-extras install epel
 yum update -y
