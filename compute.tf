@@ -44,8 +44,7 @@ resource "aws_instance" "jenkins-instance" {
   tags = {
     Name = "ansible"
   }
-
-
+}
 
 resource "aws_security_group" "sg_allow_ssh_jenkins" {
   name        = "allow_ssh_jenkins"
