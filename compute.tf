@@ -23,7 +23,7 @@ resource "aws_instance" "jenkins-instance" {
   vpc_security_group_ids = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
   subnet_id          = "${aws_subnet.public-subnet-1.id}"
   #name            = "${var.name}"
-  #user_data = "${file("Software-Applications-CI-CD.sh")}"
+  user_data = "${file("Software-Applications-CI-CD.sh")}"
 
   associate_public_ip_address = true
   tags = {
