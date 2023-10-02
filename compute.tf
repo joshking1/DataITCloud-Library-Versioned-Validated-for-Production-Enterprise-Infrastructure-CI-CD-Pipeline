@@ -16,59 +16,19 @@ data "aws_ami" "amazon-linux-2" {
 }
 
 resource "aws_instance" "jenkins-instance" {
-  ami           = "${data.aws_ami.amazon-linux-2.id}"
-  instance_type = "t2.medium"
-  key_name      = "${var.keyname}"
-  subnet_id     = "${aws_subnet.public-subnet-1.id}"
+  ami             = "${data.aws_ami.amazon-linux-2.id}"
+  instance_type   = "t2.medium"
+  key_name        = "${var.keyname}"
+  #vpc_id          = "${aws_vpc.development-vpc.id}"
+  vpc_security_group_ids = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
+  subnet_id          = "${aws_subnet.public-subnet-1.id}"
+  #name            = "${var.name}"
+  #user_data = "${file("Software-Applications-CI-CD.sh")}"
+
   associate_public_ip_address = true
-  vpc_security_group_ids      = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
   tags = {
     Name = "Jenkins-Instance"
   }
-
-  security_groups = ["${aws_security_group.sg_allow_ssh_jenkins.name}"]
-}
-
-resource "aws_instance" "ansible" {
-  ami           = "${data.aws_ami.amazon-linux-2.id}"
-  instance_type = "t2.micro"
-  key_name      = "${var.keyname}"
-  subnet_id     = "${aws_subnet.public-subnet-1.id}"
-  associate_public_ip_address = true
-  vpc_security_group_ids      = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
-  tags = {
-    Name = "Ansible"
-  }
-
-  security_groups = ["${aws_security_group.sg_allow_ssh_jenkins.name}"]
-}
-
-resource "aws_instance" "jenkins-agent-1" {
-  ami           = "${data.aws_ami.amazon-linux-2.id}"
-  instance_type = "t2.micro"
-  key_name      = "${var.keyname}"
-  subnet_id     = "${aws_subnet.public-subnet-1.id}"
-  associate_public_ip_address = true
-  vpc_security_group_ids      = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
-  tags = {
-    Name = "Jenkins-Agent-1"
-  }
-
-  security_groups = ["${aws_security_group.sg_allow_ssh_jenkins.name}"]
-}
-
-resource "aws_instance" "jenkins-agent-2" {
-  ami           = "${data.aws_ami.amazon-linux-2.id}"
-  instance_type = "t2.micro"
-  key_name      = "${var.keyname}"
-  subnet_id     = "${aws_subnet.public-subnet-1.id}"
-  associate_public_ip_address = true
-  vpc_security_group_ids      = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
-  tags = {
-    Name = "Jenkins-Agent-2"
-  }
-
-  security_groups = ["${aws_security_group.sg_allow_ssh_jenkins.name}"]
 }
 
 resource "aws_security_group" "sg_allow_ssh_jenkins" {
@@ -82,8 +42,7 @@ resource "aws_security_group" "sg_allow_ssh_jenkins" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
-  ingress {
+    ingress {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
@@ -105,11 +64,9 @@ resource "aws_security_group" "sg_allow_ssh_jenkins" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
   }
 }
-
-
