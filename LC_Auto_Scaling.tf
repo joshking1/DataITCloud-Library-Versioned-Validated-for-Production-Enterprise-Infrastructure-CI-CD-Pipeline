@@ -10,8 +10,9 @@ resource "aws_launch_configuration" "as_conf" {
 
 resource "aws_autoscaling_group" "as_conf" {
   name                 = "new-terraform-asg-example"
-  availability_zones  = ["us-east-2a"]
-  health_check_type   = "EC2"
+  vpc_zone_identifier  = ["10.0.12.0/24", "10.0.13.0/24"]
+  availability_zones   = ["us-east-2a"]
+  health_check_type    = "EC2"
   launch_configuration = aws_launch_configuration.as_conf.name
   min_size             = 1
   max_size             = 2
@@ -20,3 +21,4 @@ resource "aws_autoscaling_group" "as_conf" {
     create_before_destroy = true
   }
 }
+
