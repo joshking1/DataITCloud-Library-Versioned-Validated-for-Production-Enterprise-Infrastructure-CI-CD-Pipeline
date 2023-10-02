@@ -9,7 +9,7 @@ resource "aws_launch_configuration" "as_conf" {
 }
 
 resource "aws_autoscaling_group" "as_conf" {
-  name                 = "new-terraform-asg-example"
+  name                 = "new-terraform-asg-example-2"
   availability_zones   = ["us-east-2a", "us-east-2b"]  # Replace with your desired availability zones
   health_check_type    = "EC2"
   launch_configuration = aws_launch_configuration.as_conf.name
