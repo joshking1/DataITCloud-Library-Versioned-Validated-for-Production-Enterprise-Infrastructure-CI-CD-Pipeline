@@ -27,10 +27,10 @@ resource "aws_instance" "jenkins-instance" {
 
   associate_public_ip_address = true
   tags = {
-    Name = "Jenkins-Instance"
+    Name = "jenkins-Instance"
   }
 }
-resource "aws_instance" "jenkins-instance" {
+resource "aws_instance" "ansible-instance" {
   ami             = "${data.aws_ami.amazon-linux-2.id}"
   instance_type   = "t2.medium"
   key_name        = "${var.keyname}"
@@ -42,7 +42,7 @@ resource "aws_instance" "jenkins-instance" {
 
   associate_public_ip_address = true
   tags = {
-    Name = "ansible"
+    Name = "ansible-instance"
   }
 }
 
