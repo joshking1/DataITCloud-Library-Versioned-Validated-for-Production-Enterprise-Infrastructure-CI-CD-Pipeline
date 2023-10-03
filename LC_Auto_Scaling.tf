@@ -10,7 +10,6 @@ resource "aws_launch_configuration" "as_conf" {
 
 resource "aws_autoscaling_group" "as_conf" {
   name                 = "new-terraform-asg-example-2"
-  vpc_id               = "Production-Enteprise-Development-VPC"  # Replace with your VPC ID
   subnet_ids           = ["Production-Enteprise-Development-Private-Subnet-2", "Production-Enteprise-Development-Private-Subnet-3"]  # Replace with your subnet IDs
   availability_zones   = ["us-east-2a", "us-east-2b"]  # Replace with your desired availability zones
   health_check_type    = "EC2"
