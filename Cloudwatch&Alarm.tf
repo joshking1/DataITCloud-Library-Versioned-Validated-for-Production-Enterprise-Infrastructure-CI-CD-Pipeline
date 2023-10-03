@@ -12,7 +12,7 @@ resource "aws_cloudwatch_metric_alarm" "ec2_cpu" {
 
 dimensions = {
 
-       InstanceId = aws_instance.jenkins-instance.id
+       InstanceId = [aws_instance.jenkins-instance.id]
 
      }
 
