@@ -12,7 +12,7 @@ resource "aws_cloudwatch_metric_alarm" "ec2_cpu" {
 
 dimensions = {
 
-       Instance_ids = ["aws_instance.jenkins-instance.id","aws_instance.ansible-instance.id","aws_instance.jenkins-agent-1.id","aws_instance.jenkins-agent-2.id"]
+       Instance_ids = formatlist("aws_instance.%s.id", ["jenkins-instance", "ansible-instance", "jenkins-agent-1", "jenkins-agent-2"])
 
      }
 
