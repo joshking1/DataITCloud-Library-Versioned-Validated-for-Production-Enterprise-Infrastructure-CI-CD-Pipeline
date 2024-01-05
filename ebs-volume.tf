@@ -1,6 +1,6 @@
 resource "aws_ebs_volume" "jenkins-instance" {
      availability_zone = "${var.region}a"
-     size             = 100
+     size             = 120
 }
 
 resource "aws_volume_attachment" "ebs_att" {
