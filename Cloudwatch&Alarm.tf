@@ -1,7 +1,7 @@
 resource "aws_cloudwatch_metric_alarm" "ec2_cpu" {
      alarm_name               = "cpu-utilization"
      comparison_operator       = "GreaterThanOrEqualToThreshold"
-     evaluation_periods       = "2"
+     evaluation_periods       = "4"
      metric_name               = "CPUUtilization"
      namespace                 = "AWS/EC2"
      period                   = "120" #seconds
