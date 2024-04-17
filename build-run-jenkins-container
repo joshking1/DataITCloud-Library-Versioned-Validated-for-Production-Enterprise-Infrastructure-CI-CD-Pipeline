@@ -1,1 +1,4 @@
+docker build -t my-jenkins-image .
+
+docker run -d --name my-jenkins-container -p 8080:8080 -p 80:80 my-jenkins-image
 
