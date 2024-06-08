@@ -12,9 +12,9 @@ resource "aws_db_subnet_group" "default" {
 resource "aws_db_instance" "default" {
   allocated_storage      = 10
   db_subnet_group_name   = aws_db_subnet_group.default.id
-  engine                 = "MySQL"
+  engine                 = "mysql"
   engine_version         = "8.0.35"
-  instance_class         = "db.t2.micro"
+  instance_class         = "db.t3.micro"  # Changed instance class to a supported one
   multi_az               = true
   db_name                = "db_name"
   username               = "username"
@@ -23,3 +23,4 @@ resource "aws_db_instance" "default" {
   vpc_security_group_ids = [aws_security_group.sg_allow_ssh_jenkins.id]
   
 }
+
