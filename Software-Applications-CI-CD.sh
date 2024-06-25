@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo yum update
+sudo yum -y update
 
 sudo yum upgrade -y
 
