@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# we are going to check the code 
 # Change to the /opt directory
 cd /opt
 
