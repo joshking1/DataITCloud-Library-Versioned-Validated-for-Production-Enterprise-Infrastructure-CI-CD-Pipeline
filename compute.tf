@@ -23,8 +23,9 @@ data "aws_ami" "ubuntu_server" {
   most_recent = true
 
   filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-22.04-amd64-server-*"]
+    name = "name"
+    #values = ["ubuntu/images/hvm-ssd/ubuntu-disco-19.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 
   filter {
@@ -32,12 +33,12 @@ data "aws_ami" "ubuntu_server" {
     values = ["hvm"]
   }
 
-  owners = ["099720109477"]  # Canonical owner ID
+  owners = ["099720109477"] # Canonical
 }
 
 # Ubuntu Java Application Server 
 
-resource "aws_instance" "example" {
+resource "aws_instance" "ubuntu-server" {
   ami           = "${data.aws_ami.ubuntu_server.id}"
   instance_type = "t2.medium"  
   key_name      = "${var.keyname}"  
