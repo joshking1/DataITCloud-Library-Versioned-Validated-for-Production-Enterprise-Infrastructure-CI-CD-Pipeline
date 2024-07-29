@@ -46,8 +46,7 @@ resource "aws_instance" "jenkins-instance" {
   }
 }
 
-# Jenkins Agent 1
-
+# Jenkins-Agent-1
 resource "aws_instance" "jenkins-agent-1" {
   ami             = "${data.aws_ami.ubuntu_server.id}"
   instance_type   = "t2.medium"
