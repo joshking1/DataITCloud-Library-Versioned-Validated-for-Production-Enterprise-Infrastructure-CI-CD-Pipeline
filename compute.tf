@@ -16,9 +16,9 @@ data "aws_ami" "ubuntu_server" {
   owners = ["099720109477"] # Canonical
 }
 
-# Jenkins Instance
+# Ansible Instance
 
-resource "aws_instance" "jenkins-instance" {
+resource "aws_instance" "ansible-instance" {
   ami             = "${data.aws_ami.ubuntu_server.id}"
   instance_type   = "t2.small"
   key_name        = "${var.keyname}"
@@ -28,13 +28,13 @@ resource "aws_instance" "jenkins-instance" {
 
   associate_public_ip_address = true
   tags = {
-    Name = "jenkins-instance"
+    Name = "ansible-instance"
   }
 }
 
-# Ansible Instance
+# Jenkins Instance
 
-resource "aws_instance" "ansible-instance" {
+resource "aws_instance" "jenkins-instance" {
   ami             = "${data.aws_ami.ubuntu_server.id}"
   instance_type   = "t2.medium"
   key_name        = "${var.keyname}"
@@ -42,7 +42,7 @@ resource "aws_instance" "ansible-instance" {
   subnet_id          = "${aws_subnet.public-subnet-1.id}"
   associate_public_ip_address = true
   tags = {
-    Name = "ansible-instance"
+    Name = "jenkins-instance"
   }
 }
 
