@@ -15,7 +15,7 @@ data "aws_ami" "ubuntu_server" {
   owners = ["099720109477"] # Canonical
 }
 
-# Ansible Instance
+# Ansible Instance Spot Instance
 resource "aws_spot_instance_request" "ansible_instance" {
   ami                         = data.aws_ami.ubuntu_server.id
   instance_type               = "t2.small"
