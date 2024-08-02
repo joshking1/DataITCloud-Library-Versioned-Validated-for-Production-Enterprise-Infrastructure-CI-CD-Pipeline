@@ -104,7 +104,7 @@ resource "aws_spot_instance_request" "jenkins_agent_1" {
 resource "aws_security_group" "sg_allow_ssh_jenkins" {
   name        = "allow_ssh_jenkins"
   description = "Allow SSH, Jenkins, SonarQube, Prometheus, and Grafana inbound traffic"
-  vpc_id      = aws_vpc.development_vpc.id
+  vpc_id      = aws_vpc.development-vpc.id
 
   ingress {
     from_port   = 22
@@ -168,4 +168,50 @@ resource "aws_security_group" "sg_allow_ssh_jenkins" {
     protocol        = "-1"
     cidr_blocks     = ["0.0.0.0/0"]
   }
+}
+
+# Outputs
+output "jenkins_ip_address" {
+  value = aws_spot_instance_request.jenkins_instance.public_ip
+}
+
+# CloudWatch Metric Alarm
+resource "aws_cloudwatch_metric_alarm" "ec2_cpu" {
+  alarm_name                = "ec2_cpu_alarm"
+  comparison_operator       = "GreaterThanThreshold"
+  evaluation_periods        = "2"
+  metric_name               = "CPUUtilization"
+  namespace                 = "AWS/EC2"
+  period                    = "120"
+  statistic                 = "Average"
+  threshold                 = "80"
+  alarm_description         = "This metric monitors ec2 cpu utilization"
+  actions_enabled           = true
+  alarm_actions             = []
+  insufficient_data_actions = []
+  ok_actions                = []
+
+  dimensions = {
+    InstanceId = aws_spot_instance_request.jenkins_instance.id
+  }
+}
+
+# ALB Target Group Attachment
+resource "aws_lb_target_group_attachment" "attachment" {
+  target_group_arn = aws_lb_target_group.main.arn
+  target_id        = aws_spot_instance_request.jenkins_instance.id
+  port             = 80
+}
+
+resource "aws_lb_target_group_attachment" "attachment1" {
+  target_group_arn = aws_lb_target_group.main.arn
+  target_id        = aws_spot_instance_request.jenkins_instance.id
+  port             = 80
+}
+
+# EBS Volume Attachment
+resource "aws_volume_attachment" "ebs_att" {
+  device_name = "/dev/sdh"
+  volume_id   = aws_ebs_volume.example.id
+  instance_id = aws_spot_instance_request.jenkins_instance.id
 }
