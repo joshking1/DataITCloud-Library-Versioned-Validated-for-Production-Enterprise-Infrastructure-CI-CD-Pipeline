@@ -15,95 +15,92 @@ data "aws_ami" "ubuntu_server" {
   owners = ["099720109477"] # Canonical
 }
 
-# Spot Instance Requests
-
+# Ansible Instance
 resource "aws_spot_instance_request" "ansible_instance" {
-  ami             = data.aws_ami.ubuntu_server.id
-  instance_type   = "t2.small"
-  key_name        = var.keyname
-  spot_price      = "0.020" # Adjust to a reasonable spot price
-  subnet_id       = aws_subnet.public_subnet_1.id
-  user_data       = file("Software-Applications-CI-CD.sh")
-
+  ami                         = data.aws_ami.ubuntu_server.id
+  instance_type               = "t2.small"
+  key_name                    = var.keyname
+  spot_price                  = "0.020" # Adjust to a reasonable spot price
+  vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id                   = aws_subnet.public_subnet_1.id
+  user_data                   = file("Software-Applications-CI-CD.sh")
   associate_public_ip_address = true
-
   tags = {
     Name = "ansible-instance"
   }
 }
 
+# Jenkins Instance
 resource "aws_spot_instance_request" "jenkins_instance" {
-  ami             = data.aws_ami.ubuntu_server.id
-  instance_type   = "t2.medium"
-  key_name        = var.keyname
-  spot_price      = "0.0325" # 70% of the on-demand price
-  subnet_id       = aws_subnet.public_subnet_1.id
-
+  ami                         = data.aws_ami.ubuntu_server.id
+  instance_type               = "t2.medium"
+  key_name                    = var.keyname
+  spot_price                  = "0.0325" # 70% of the on-demand price
+  vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id                   = aws_subnet.public_subnet_1.id
   associate_public_ip_address = true
-
   tags = {
     Name = "jenkins-instance"
   }
 }
 
+# SonarQube Instance
 resource "aws_spot_instance_request" "sonarqube_instance" {
-  ami             = data.aws_ami.ubuntu_server.id
-  instance_type   = "t2.medium"
-  key_name        = var.keyname
-  spot_price      = "0.0325" # 70% of the on-demand price
-  subnet_id       = aws_subnet.public_subnet_1.id
-
+  ami                         = data.aws_ami.ubuntu_server.id
+  instance_type               = "t2.medium"
+  key_name                    = var.keyname
+  spot_price                  = "0.0325" # 70% of the on-demand price
+  vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id                   = aws_subnet.public_subnet_1.id
   associate_public_ip_address = true
-
   tags = {
     Name = "sonarqube-instance"
   }
 }
 
+# Prometheus Instance
 resource "aws_spot_instance_request" "prometheus_instance" {
-  ami             = data.aws_ami.ubuntu_server.id
-  instance_type   = "t2.medium"
-  key_name        = var.keyname
-  spot_price      = "0.0325" # 70% of the on-demand price
-  subnet_id       = aws_subnet.public_subnet_1.id
-
+  ami                         = data.aws_ami.ubuntu_server.id
+  instance_type               = "t2.medium"
+  key_name                    = var.keyname
+  spot_price                  = "0.0325" # 70% of the on-demand price
+  vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id                   = aws_subnet.public_subnet_1.id
   associate_public_ip_address = true
-
   tags = {
     Name = "prometheus-instance"
   }
 }
 
+# Grafana Instance
 resource "aws_spot_instance_request" "grafana_instance" {
-  ami             = data.aws_ami.ubuntu_server.id
-  instance_type   = "t2.medium"
-  key_name        = var.keyname
-  spot_price      = "0.0325" # 70% of the on-demand price
-  subnet_id       = aws_subnet.public_subnet_1.id
-
+  ami                         = data.aws_ami.ubuntu_server.id
+  instance_type               = "t2.medium"
+  key_name                    = var.keyname
+  spot_price                  = "0.0325" # 70% of the on-demand price
+  vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id                   = aws_subnet.public_subnet_1.id
   associate_public_ip_address = true
-
   tags = {
     Name = "grafana-instance"
   }
 }
 
+# Jenkins-Agent-1
 resource "aws_spot_instance_request" "jenkins_agent_1" {
-  ami             = data.aws_ami.ubuntu_server.id
-  instance_type   = "t2.medium"
-  key_name        = var.keyname
-  spot_price      = "0.0325" # 70% of the on-demand price
-  subnet_id       = aws_subnet.public_subnet_1.id
-
+  ami                         = data.aws_ami.ubuntu_server.id
+  instance_type               = "t2.medium"
+  key_name                    = var.keyname
+  spot_price                  = "0.0325" # 70% of the on-demand price
+  vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id                   = aws_subnet.public_subnet_1.id
   associate_public_ip_address = true
-
   tags = {
     Name = "jenkins-agent-1"
   }
 }
 
 # Security Group for SSH, Jenkins, SonarQube, Prometheus, and Grafana
-
 resource "aws_security_group" "sg_allow_ssh_jenkins" {
   name        = "allow_ssh_jenkins"
   description = "Allow SSH, Jenkins, SonarQube, Prometheus, and Grafana inbound traffic"
@@ -129,35 +126,35 @@ resource "aws_security_group" "sg_allow_ssh_jenkins" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  
   ingress {
     from_port   = 9000
     to_port     = 9000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  
   ingress {
     from_port   = 3000
     to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  
   ingress {
     from_port   = 9090
     to_port     = 9090
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  
   ingress {
     from_port   = 9092
     to_port     = 9092
@@ -166,9 +163,9 @@ resource "aws_security_group" "sg_allow_ssh_jenkins" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
   }
 }
