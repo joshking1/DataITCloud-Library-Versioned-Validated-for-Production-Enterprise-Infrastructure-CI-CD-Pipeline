@@ -40,18 +40,27 @@ resource "aws_spot_instance_request" "ansible_instance" {
 }
 
 # Jenkins Instance
-resource "aws_spot_instance_request" "jenkins_instance" {
+
+resource "aws_instance" "ansible_instance" {
   ami                         = data.aws_ami.ubuntu_server.id
-  instance_type               = "t2.medium"
+  instance_type               = "t2.small"
   key_name                    = var.keyname
-  spot_price                  = "0.0325" # 70% of the on-demand price
   vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
-  subnet_id                   = aws_subnet.public-subnet-1.id
+  subnet_id                   = aws_subnet.public_subnet_1.id
+  user_data                   = file("Software-Applications-CI-CD.sh")
   associate_public_ip_address = true
+
+  spot_instance_request {
+    spot_price = "0.020" # Adjust to a reasonable spot price
+    instance_interruption_behavior = "terminate"
+    spot_instance_type = "one-time"
+  }
+
   tags = {
-    Name = "jenkins-spot-instance"
+    Name = "ansible-spot-instance"
   }
 }
+
 
 # SonarQube Instance
 resource "aws_spot_instance_request" "sonarqube_instance" {
