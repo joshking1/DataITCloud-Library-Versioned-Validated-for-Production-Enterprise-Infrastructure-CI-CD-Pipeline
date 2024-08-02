@@ -26,7 +26,7 @@ resource "aws_spot_instance_request" "ansible_instance" {
   user_data                   = file("Software-Applications-CI-CD.sh")
   associate_public_ip_address = true
   tags = {
-    Name = "ansible-instance"
+    Name = "ansible-spot-instance"
   }
 }
 
@@ -40,7 +40,7 @@ resource "aws_spot_instance_request" "jenkins_instance" {
   subnet_id                   = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
-    Name = "jenkins-instance"
+    Name = "jenkins-spot-instance"
   }
 }
 
@@ -54,7 +54,7 @@ resource "aws_spot_instance_request" "sonarqube_instance" {
   subnet_id                   = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
-    Name = "sonarqube-instance"
+    Name = "sonarqube-spot-instance"
   }
 }
 
@@ -68,7 +68,7 @@ resource "aws_spot_instance_request" "prometheus_instance" {
   subnet_id                   = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
-    Name = "prometheus-instance"
+    Name = "prometheus-spot-instance"
   }
 }
 
@@ -82,7 +82,7 @@ resource "aws_spot_instance_request" "grafana_instance" {
   subnet_id                   = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
-    Name = "grafana-instance"
+    Name = "grafana-spot-instance"
   }
 }
 
@@ -96,7 +96,7 @@ resource "aws_spot_instance_request" "jenkins_agent_1" {
   subnet_id                   = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
-    Name = "jenkins-agent-1"
+    Name = "jenkins-spot-agent-1"
   }
 }
 
