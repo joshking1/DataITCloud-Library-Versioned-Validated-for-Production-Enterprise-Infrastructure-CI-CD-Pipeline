@@ -22,7 +22,7 @@ resource "aws_spot_instance_request" "ansible_instance" {
   key_name                    = var.keyname
   spot_price                  = "0.020" # Adjust to a reasonable spot price
   vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
-  subnet_id                   = aws_subnet.public_subnet_1.id
+  subnet_id                   = aws_subnet.public-subnet-1.id
   user_data                   = file("Software-Applications-CI-CD.sh")
   associate_public_ip_address = true
 
