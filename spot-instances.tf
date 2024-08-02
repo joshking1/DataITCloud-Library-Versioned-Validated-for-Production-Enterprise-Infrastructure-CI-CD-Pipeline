@@ -22,7 +22,7 @@ resource "aws_spot_instance_request" "ansible_instance" {
   key_name                    = var.keyname
   spot_price                  = "0.020" # Adjust to a reasonable spot price
   vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
-  subnet_id                   = aws_subnet.public_subnet_1.id
+  subnet_id                   = aws_subnet.public-subnet-1.id
   user_data                   = file("Software-Applications-CI-CD.sh")
   associate_public_ip_address = true
   tags = {
@@ -37,7 +37,7 @@ resource "aws_spot_instance_request" "jenkins_instance" {
   key_name                    = var.keyname
   spot_price                  = "0.0325" # 70% of the on-demand price
   vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
-  subnet_id                   = aws_subnet.public_subnet_1.id
+  subnet_id                   = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
     Name = "jenkins-instance"
@@ -51,7 +51,7 @@ resource "aws_spot_instance_request" "sonarqube_instance" {
   key_name                    = var.keyname
   spot_price                  = "0.0325" # 70% of the on-demand price
   vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
-  subnet_id                   = aws_subnet.public_subnet_1.id
+  subnet_id                   = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
     Name = "sonarqube-instance"
@@ -65,7 +65,7 @@ resource "aws_spot_instance_request" "prometheus_instance" {
   key_name                    = var.keyname
   spot_price                  = "0.0325" # 70% of the on-demand price
   vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
-  subnet_id                   = aws_subnet.public_subnet_1.id
+  subnet_id                   = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
     Name = "prometheus-instance"
@@ -79,7 +79,7 @@ resource "aws_spot_instance_request" "grafana_instance" {
   key_name                    = var.keyname
   spot_price                  = "0.0325" # 70% of the on-demand price
   vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
-  subnet_id                   = aws_subnet.public_subnet_1.id
+  subnet_id                   = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
     Name = "grafana-instance"
@@ -93,7 +93,7 @@ resource "aws_spot_instance_request" "jenkins_agent_1" {
   key_name                    = var.keyname
   spot_price                  = "0.0325" # 70% of the on-demand price
   vpc_security_group_ids      = [aws_security_group.sg_allow_ssh_jenkins.id]
-  subnet_id                   = aws_subnet.public_subnet_1.id
+  subnet_id                   = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
     Name = "jenkins-agent-1"
