@@ -17,13 +17,13 @@ data "aws_ami" "ubuntu_server" {
 
 # Ansible Instance
 resource "aws_spot_instance_request" "ansible-instance" {
-  ami             = "${data.aws_ami.ubuntu_server.id}"
+  ami             = data.aws_ami.ubuntu_server.id
   instance_type   = "t2.small"
   spot_price      = "0.94"
-  key_name        = "${var.keyname}"
-  vpc_security_group_ids = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
-  subnet_id          = "${aws_subnet.public-subnet-1.id}"
-  user_data = "${file("Software-Applications-CI-CD.sh")}"
+  key_name        = var.keyname
+  vpc_security_group_ids = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id          = aws_subnet.public-subnet-1.id
+  user_data = file("Software-Applications-CI-CD.sh")
 
   associate_public_ip_address = true
   tags = {
@@ -33,12 +33,12 @@ resource "aws_spot_instance_request" "ansible-instance" {
 
 # Jenkins Instance
 resource "aws_spot_instance_request" "jenkins-instance" {
-  ami             = "${data.aws_ami.ubuntu_server.id}"
+  ami             = data.aws_ami.ubuntu_server.id
   instance_type   = "t2.medium"
   spot_price      = "0.94"
-  key_name        = "${var.keyname}"
-  vpc_security_group_ids = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
-  subnet_id          = "${aws_subnet.public-subnet-1.id}"
+  key_name        = var.keyname
+  vpc_security_group_ids = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id          = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
     Name = "jenkins-instance"
@@ -47,12 +47,12 @@ resource "aws_spot_instance_request" "jenkins-instance" {
 
 # SonarQube Instance
 resource "aws_spot_instance_request" "sonarqube-instance" {
-  ami             = "${data.aws_ami.ubuntu_server.id}"
+  ami             = data.aws_ami.ubuntu_server.id
   instance_type   = "t2.medium"
   spot_price      = "0.94"
-  key_name        = "${var.keyname}"
-  vpc_security_group_ids = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
-  subnet_id          = "${aws_subnet.public-subnet-1.id}"
+  key_name        = var.keyname
+  vpc_security_group_ids = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id          = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
     Name = "sonarqube-instance"
@@ -61,12 +61,12 @@ resource "aws_spot_instance_request" "sonarqube-instance" {
 
 # Prometheus Instance
 resource "aws_spot_instance_request" "prometheus-instance" {
-  ami             = "${data.aws_ami.ubuntu_server.id}"
+  ami             = data.aws_ami.ubuntu_server.id
   instance_type   = "t2.medium"
   spot_price      = "0.94"
-  key_name        = "${var.keyname}"
-  vpc_security_group_ids = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
-  subnet_id          = "${aws_subnet.public-subnet-1.id}"
+  key_name        = var.keyname
+  vpc_security_group_ids = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id          = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
     Name = "prometheus-instance"
@@ -75,12 +75,12 @@ resource "aws_spot_instance_request" "prometheus-instance" {
 
 # Grafana Instance
 resource "aws_spot_instance_request" "grafana-instance" {
-  ami             = "${data.aws_ami.ubuntu_server.id}"
+  ami             = data.aws_ami.ubuntu_server.id
   instance_type   = "t2.medium"
   spot_price      = "0.94"
-  key_name        = "${var.keyname}"
-  vpc_security_group_ids = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
-  subnet_id          = "${aws_subnet.public-subnet-1.id}"
+  key_name        = var.keyname
+  vpc_security_group_ids = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id          = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
     Name = "grafana-instance"
@@ -89,12 +89,12 @@ resource "aws_spot_instance_request" "grafana-instance" {
 
 # Jenkins-Agent-1
 resource "aws_spot_instance_request" "jenkins-agent-1" {
-  ami             = "${data.aws_ami.ubuntu_server.id}"
+  ami             = data.aws_ami.ubuntu_server.id
   instance_type   = "t2.medium"
   spot_price      = "0.94"
-  key_name        = "${var.keyname}"
-  vpc_security_group_ids = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
-  subnet_id          = "${aws_subnet.public-subnet-1.id}"
+  key_name        = var.keyname
+  vpc_security_group_ids = [aws_security_group.sg_allow_ssh_jenkins.id]
+  subnet_id          = aws_subnet.public-subnet-1.id
   associate_public_ip_address = true
   tags = {
     Name = "jenkins-agent-1"
@@ -105,7 +105,7 @@ resource "aws_spot_instance_request" "jenkins-agent-1" {
 resource "aws_security_group" "sg_allow_ssh_jenkins" {
   name        = "allow_ssh_jenkins"
   description = "Allow SSH, Jenkins, SonarQube, Prometheus, and Grafana inbound traffic"
-  vpc_id      = "${aws_vpc.development-vpc.id}"
+  vpc_id      = aws_vpc.development-vpc.id
 
   ingress {
     from_port   = 22
